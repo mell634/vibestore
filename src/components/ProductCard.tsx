@@ -4,14 +4,19 @@ import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 export function ProductCard({ product }: { product: Product }) {
-  const image = product.images?.[0]?.url ?? "/placeholder.svg";
+  // Protección: Si no hay imagen, usamos un placeholder
+  const firstImage = product.images?.[0];
+  const fileName = firstImage?.url ? firstImage.url.split('/').pop() : "placeholder.svg";
+  const imagePath = `/${fileName}`;
+
   const agotado = (product.stock ?? 0) <= 0;
+  
   return (
     <Link to={`/producto/${product.slug}`} className="group block">
       <div className="relative aspect-[3/4] bg-white overflow-hidden mb-3 rounded-md">
-        <img
-          src={image}
-          alt={product.images?.[0]?.alt ?? product.name}
+        <img 
+          src={imagePath}
+          alt={firstImage?.alt ?? product.name}
           loading="lazy"
           width={896}
           height={1216}
