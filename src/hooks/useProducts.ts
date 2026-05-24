@@ -78,20 +78,25 @@ export function useProductBySlug(slug: string) {
   return useQuery({
     queryKey: ["products", "slug", slug],
     queryFn: async () => {
-      // Intentamos con Supabase
+      // Normalizamos el slug eliminando posibles espacios
+      const cleanSlug = slug.trim();
+      
       const { data, error } = await supabase
         .from("products")
         .select(PRODUCT_SELECT)
-        .eq("slug", slug)
+        .eq("slug", cleanSlug)
+        // Eliminamos la restricción de .eq("active", true) temporalmente para probar si el producto está desactivado
         .maybeSingle();
         
-      if (data) return mapProduct(data);
+      if (error) {
+        console.error("Error en consulta de Supabase:", error);
+        throw error;
+      }
       
-      // Fallback: si no hay en Supabase, buscamos en el mock
-      console.warn("Producto no encontrado en Supabase, buscando en mockDb");
-      return null;
+      return data ? mapProduct(data) : null;
     },
     enabled: !!slug,
+    retry: false, // Evita reintentos innecesarios
   });
 }
 
