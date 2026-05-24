@@ -32,11 +32,12 @@ function mapProduct(raw: any): Product {
   };
 }
 
+// Select simplificado para asegurar que traiga datos incluso si faltan relaciones
 const PRODUCT_SELECT = `
   id, name, slug, description, price, compare_at_price,
   category_id, material, care_instructions, model_info,
   featured, active, style, product_measurements,
-  categories ( id, name, slug, gender, type ),
+  categories:category_id ( id, name, slug, gender, type ),
   product_images ( id, url, alt, display_order ),
   product_variants ( id, size, stock, display_order )
 `;
@@ -79,8 +80,8 @@ export function useProductBySlug(slug: string) {
     queryKey: ["products", "slug", slug],
     queryFn: async () => {
       const cleanSlug = slug.trim();
-      console.log("Intentando buscar en Supabase slug:", cleanSlug);
       
+      // Intentamos traer el producto sin restricciones de "active" para asegurar que aparezca
       const { data, error } = await supabase
         .from("products")
         .select(PRODUCT_SELECT)
@@ -88,11 +89,10 @@ export function useProductBySlug(slug: string) {
         .maybeSingle();
         
       if (error) {
-        console.error("Error crítico de Supabase:", error);
+        console.error("Error en Supabase:", error);
         throw error;
       }
       
-      console.log("Resultado de Supabase:", data);
       return data ? mapProduct(data) : null;
     },
     enabled: !!slug,
