@@ -10,15 +10,13 @@ export default function ProductDetail() {
   const { addItem } = useCart();
   const [selectedSize, setSelectedSize] = useState<string>("");
 
-  // Mostramos estado de carga
   if (isLoading) return <div className="p-10 text-center">Cargando producto...</div>;
 
-  // Si hay error o no hay producto, mostramos esto
   if (error || !product) {
     return (
       <div className="p-10 text-center">
         <h2 className="text-2xl font-bold">Producto no encontrado</h2>
-        <p className="mt-2">El producto con la URL "{slug}" no existe o está desactivado.</p>
+        <p className="mt-2">El producto "{slug}" no existe.</p>
         <Button onClick={() => window.location.href = "/"} className="mt-4">
           Volver al inicio
         </Button>
@@ -28,27 +26,22 @@ export default function ProductDetail() {
 
   return (
     <div className="container py-10 grid md:grid-cols-2 gap-10">
-      {/* IMAGEN PROTEGIDA */}
       <div className="bg-gray-100 rounded-lg overflow-hidden h-[500px]">
         <img 
           src={product.images?.[0]?.url || "https://placehold.co/600x400?text=Sin+Imagen"} 
           alt={product.name} 
           className="w-full h-full object-cover"
-          // ESTO ES LO IMPORTANTE: Si falla la carga, pone la imagen de repuesto automáticamente
           onError={(e) => { 
             (e.target as HTMLImageElement).src = "https://placehold.co/600x400?text=Sin+Imagen"; 
           }}
         />
       </div>
 
-      {/* DETALLES */}
       <div className="space-y-6">
         <h1 className="text-4xl font-bold">{product.name}</h1>
         <p className="text-2xl font-semibold">${product.price}</p>
-        
         <p className="text-gray-600 leading-relaxed">{product.description}</p>
 
-        {/* SELECTOR DE TALLAS */}
         {product.variants && product.variants.length > 0 && (
           <div>
             <p className="text-sm font-bold mb-3">SELECCIONA TALLA:</p>
