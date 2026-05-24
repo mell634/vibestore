@@ -79,20 +79,19 @@ export function useProductBySlug(slug: string) {
   return useQuery({
     queryKey: ["products", "slug", slug],
     queryFn: async () => {
-      const cleanSlug = slug.trim();
-      
-      // Intentamos traer el producto sin restricciones de "active" para asegurar que aparezca
+      // Intentamos traer el producto directo, sin filtros ni nada
       const { data, error } = await supabase
         .from("products")
-        .select(PRODUCT_SELECT)
-        .eq("slug", cleanSlug)
-        .maybeSingle();
+        .select("*") // Trae TODO
+        .eq("slug", slug.trim()) // Solo compara el slug
+        .single(); // Solo uno
         
       if (error) {
-        console.error("Error en Supabase:", error);
-        throw error;
+        console.error("ERROR SUPABASE:", error);
+        return null;
       }
       
+      console.log("DATOS CRUDOS:", data);
       return data ? mapProduct(data) : null;
     },
     enabled: !!slug,
