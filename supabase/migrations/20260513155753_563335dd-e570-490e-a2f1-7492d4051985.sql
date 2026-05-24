@@ -1,0 +1,1 @@
+DELETE FROM public.products WHERE slug = 'bolso-tan-crossbody';

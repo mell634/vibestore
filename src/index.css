@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* VibeStore — Sistema de diseño bold, variado, con estilo
+ * Paleta vibrante: hueso cálido + tinta + acentos eléctricos (cobalto, lima, coral).
+ * Tipografía: Bricolage display (expresiva), Inter para UI, JetBrains Mono para detalles.
+ * Todos los colores en HSL.
+ */
+
+@layer base {
+  :root {
+    /* Base — papel hueso cálido */
+    --background: 38 35% 95%;
+    --foreground: 220 15% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 10%;
+
+    /* Primary: tinta profunda */
+    --primary: 220 15% 10%;
+    --primary-foreground: 38 35% 95%;
+
+    /* Secondary: piedra clara */
+    --secondary: 35 18% 88%;
+    --secondary-foreground: 220 15% 10%;
+
+    --muted: 35 16% 91%;
+    --muted-foreground: 220 8% 38%;
+
+    /* Accent: cobalto eléctrico */
+    --accent: 232 86% 56%;
+    --accent-foreground: 38 35% 95%;
+
+    --destructive: 358 75% 52%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 12% 86%;
+    --input: 220 12% 86%;
+    --ring: 232 86% 56%;
+
+    --radius: 0.75rem; /* curvo, amigable */
+
+    /* Tokens de marca */
+    --ink: 220 15% 10%;
+    --paper: 38 35% 95%;
+    --bone: 35 22% 92%;
+    --ash: 220 8% 38%;
+
+    /* Acentos vibrantes — uso puntual */
+    --cobalt: 232 86% 56%;
+    --lime: 78 85% 58%;
+    --coral: 12 92% 64%;
+    --butter: 46 96% 70%;
+    --plum: 280 50% 32%;
+
+    /* Gradientes y sombras */
+    --gradient-vibe: linear-gradient(135deg, hsl(var(--cobalt)) 0%, hsl(var(--plum)) 60%, hsl(var(--coral)) 100%);
+    --gradient-warm: linear-gradient(180deg, hsl(var(--butter) / 0.4) 0%, hsl(var(--paper)) 100%);
+    --shadow-pop: 6px 6px 0 hsl(var(--ink));
+    --shadow-pop-accent: 6px 6px 0 hsl(var(--cobalt));
+    --shadow-soft: 0 20px 40px -20px hsl(var(--ink) / 0.18);
+
+    --sidebar-background: 35 22% 92%;
+    --sidebar-foreground: 220 15% 10%;
+    --sidebar-primary: 220 15% 10%;
+    --sidebar-primary-foreground: 38 35% 95%;
+    --sidebar-accent: 35 18% 88%;
+    --sidebar-accent-foreground: 220 15% 10%;
+    --sidebar-border: 220 12% 86%;
+    --sidebar-ring: 232 86% 56%;
+  }
+
+  .dark {
+    --background: 220 15% 8%;
+    --foreground: 38 30% 94%;
+    --card: 220 15% 11%;
+    --card-foreground: 38 30% 94%;
+    --popover: 220 15% 11%;
+    --popover-foreground: 38 30% 94%;
+    --primary: 38 30% 94%;
+    --primary-foreground: 220 15% 8%;
+    --secondary: 220 12% 16%;
+    --secondary-foreground: 38 30% 94%;
+    --muted: 220 12% 16%;
+    --muted-foreground: 38 12% 65%;
+    --accent: 232 86% 64%;
+    --accent-foreground: 220 15% 8%;
+    --destructive: 358 75% 58%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 12% 20%;
+    --input: 220 12% 20%;
+    --ring: 232 86% 64%;
+    --bone: 220 12% 14%;
+    --sidebar-background: 220 15% 11%;
+    --sidebar-foreground: 38 30% 94%;
+    --sidebar-primary: 38 30% 94%;
+    --sidebar-primary-foreground: 220 15% 8%;
+    --sidebar-accent: 220 12% 16%;
+    --sidebar-accent-foreground: 38 30% 94%;
+    --sidebar-border: 220 12% 20%;
+    --sidebar-ring: 232 86% 64%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  ::selection {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+
+  /* WCAG 2.2 — focus visible reforzado en toda la interfaz */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Bricolage Grotesque', 'Archivo', system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .font-sans {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  .tracking-editorial {
+    letter-spacing: 0.18em;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .bg-vibe {
+    background: var(--gradient-vibe);
+  }
+  .bg-warm {
+    background: var(--gradient-warm);
+  }
+  .shadow-pop {
+    box-shadow: var(--shadow-pop);
+  }
+  .shadow-pop-accent {
+    box-shadow: var(--shadow-pop-accent);
+  }
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+}
